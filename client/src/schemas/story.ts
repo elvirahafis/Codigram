@@ -1,7 +1,7 @@
 interface IStory {
-  id: string
-  username: string
-  image: string
+  username: string;
+  image: string;
+  id: any;
 }
 
-export default IStory
+export default IStory;

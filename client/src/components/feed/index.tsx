@@ -7,11 +7,11 @@ const Feed = () => {
   const { getlistpostingResult, getlistpostingLoading, getlistpostingError } =
     useAppSelector((state) => state.users);
   // const t = Object.entries(getlisthomeResult);
-  console.log(getlistpostingResult, "w");
+  // console.log(getlistpostingResult, "w");
   const t = [getlistpostingResult];
   const dispatch = useAppDispatch();
   useEffect(() => {
-    console.log("1. use effect home");
+    // console.log("1. use effect home");
     dispatch(getlistposting());
   }, [dispatch]);
   return (

@@ -32,16 +32,18 @@ const loginuser = async (req, res) => {
 const createuser = async (req, res) => {
   try {
     const { usr, pswd } = req.body;
+    console.log(usr, pswd, req.file.imageuser);
     const salt = bcrypt.genSaltSync(10);
     const passhash = bcrypt.hashSync(pswd, salt);
     const configsufix = Math.round(Math.random() * 1e9);
 
-    await sharp(req.file.buffer)
+    await sharp(req.file.imageuser)
       .resize({ width: 250, height: 250 })
       .png()
       .toFile(`./uploads/${configsufix}${req.file.originalname}`);
     const t = req.file.mimetype;
     const imageG = `${configsufix}${req.file.originalname}`;
+    console.log(usr, pswd, imageG, t, "sssd");
     const result = await models.users.create(
       {
         username: usr,
@@ -99,11 +101,39 @@ const cekToken = async (req, res, next) => {
     res.send(errorhandling(400, error.message));
   }
 };
+const listprofil = async (req, res) => {
+  try {
+    const result = await models.users.findAll();
+    res.send(errorhandling(result, 200, "Sukses"));
+  } catch (error) {
+    res.send(errorhandling(400, error.message));
+  }
+};
+const updateprofiluser = async (req, res) => {
+  try {
+    const salt = bcrypt.genSaltSync(10);
+    const passhash = bcrypt.hashSync(req.body.pswd, salt);
+    await sharp(req.file.buffer)
+      .resize({ width: 250, height: 250 })
+      .png()
+      .toFile(`./uploads/${configsufix}${req.file.originalname}`);
 
+    const t = req.file.mimetype;
+    const imageG = `${configsufix}${req.file.originalname}`;
+    const result = await models.users.update(
+      { username: req.body.usr, password: passhash, image: imageG, path: t },
+      { where: { id: req.params.id }, returning: true }
+    );
+  } catch (error) {
+    res.send(errorhandling(400, error.message));
+  }
+};
 export default {
   loginuser,
   createuser,
   cekToken,
   profiluser,
   pictuser,
+  listprofil,
+  updateprofiluser,
 };

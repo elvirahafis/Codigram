@@ -16,19 +16,25 @@ const upload = multer({
   },
 });
 
-router.post("/", user.loginuser);
-router.post("/createuser", upload.single("buffer"), user.createuser);
-router.get("/home", posting.home);
+router.post("/login", user.loginuser);
+router.post("/createuser", upload.single("imageuser"), user.createuser);
+router.get("/home", user.cekToken, posting.home);
 // router.get("/home", user.cekToken, posting.home);
-router.post("/register", user.createuser);
+
 router.post(
   "/insertpostingan",
   upload.single("buffer"),
   posting.insertpostingan
 );
-router.post("/updatepostingan/:id", posting.updatepostingan);
+router.post(
+  "/updatepostingan/:id",
+  upload.single("buffer"),
+  posting.updatepostingan
+);
+router.post("/updateuser/:id", user.updateprofiluser);
 router.delete("/deletepostingan/:id", posting.deletepostingan);
 router.get("/profil/:id", user.profiluser);
 router.get("/uploads/:filename", posting.pictpostingan);
 router.get("/profiluser/:filename", user.pictuser);
+router.get("/listuser", user.listprofil);
 export default router;

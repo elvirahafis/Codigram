@@ -7,6 +7,7 @@ interface IPost {
   user_id: any;
   createdat: any;
   updatedat: any;
+  image: any;
 }
 
 export default IPost;

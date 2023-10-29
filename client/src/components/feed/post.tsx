@@ -53,15 +53,7 @@ const Post = ({ post }: IProps) => {
 
       <div className="h-[1px] relative left-0 right-0 bg-gray-200 -mx-5"></div>
 
-      <div className="flex gap-4">
-        <EmojiCollection />
-        <input
-          className="focus:outline-none w-full"
-          type="text"
-          placeholder="Add a comment"
-        />
-        <button className="text-blue-500">Post</button>
-      </div>
+      <div className="flex gap-4"></div>
     </div>
   );
 };
