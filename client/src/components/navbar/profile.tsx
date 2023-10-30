@@ -1,32 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { getlisthome } from "../../actions/useractions";
-import { useAppSelector, useAppDispatch } from "../../reducer/hooks";
+import { jwtDecode } from "jwt-decode";
 
+interface JwtPayload {
+  username: string;
+  exp: number;
+  id: any;
+  image: any;
+  // whatever else is in the JWT.
+}
 const Profile = () => {
-  const { getlisthomeResult, getlisthomeLoading, getlisthomeError } =
-    useAppSelector((state) => state.users);
-  const t = [getlisthomeResult];
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    console.log("1. use effect home");
-    dispatch(getlisthome());
-  }, [dispatch]);
+  const token: any = localStorage.getItem("access_token");
+  console.log(token, "123");
+  const decodedToken = jwtDecode<JwtPayload>(token);
   return (
     <div className="rounded-full overflow-hidden w-6 h-6 cursor-pointer">
-      {getlisthomeResult ? (
-        t.map((keyt: any, i: any) => (
-          <img
-            className="w-full"
-            key={i}
-            src={`http://localhost:3001/profiluser/${keyt.image}`}
-            alt={keyt.id}
-          />
-        ))
-      ) : getlisthomeLoading ? (
-        <p> Loading . . .</p>
-      ) : (
-        <p> {getlisthomeError ? getlisthomeError : "Data Kosong"}</p>
-      )}
+      <img
+        className="w-full"
+        src={`http://localhost:3001/profiluser/${decodedToken.image}`}
+        alt={decodedToken.id}
+      />
     </div>
   );
 };

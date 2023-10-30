@@ -23,12 +23,12 @@ router.get("/home", user.cekToken, posting.home);
 
 router.post(
   "/insertpostingan",
-  upload.single("buffer"),
+  upload.single("imageuser"),
   posting.insertpostingan
 );
 router.post(
   "/updatepostingan/:id",
-  upload.single("buffer"),
+  upload.single("imageuser"),
   posting.updatepostingan
 );
 router.post("/updateuser/:id", user.updateprofiluser);

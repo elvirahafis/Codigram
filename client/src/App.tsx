@@ -7,6 +7,7 @@ import Login from "./components/Login/Login";
 import Signup from "./components/Register/register";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import UploadFile from "./components/Posting/createpost";
 const App: React.FC = ({}) => {
   return (
     <Provider store={store}>
@@ -14,6 +15,7 @@ const App: React.FC = ({}) => {
         <Routes>
           <Route path="/" element={<Login />}></Route>
           <Route path="/register" element={<Signup />} />
+          <Route path="/posting" element={<UploadFile />} />
           <Route
             path="/home"
             element={

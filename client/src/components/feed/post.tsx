@@ -14,12 +14,16 @@ interface IProps {
 
 const Post = ({ post }: IProps) => {
   return (
-    <div className="relative card space-y-4">
+    <div className="relative card space-y-4 content center">
       {/* Heading */}
       <div className="flex justify-between items-center">
         <div className="flex gap-3 items-center -m-2">
           <div className="w-8 h-8 overflow-hidden rounded-full cursor-pointer">
-            <img className="w-full" src={post.imageuser} alt={post.imageuser} />
+            <img
+              className="w-full"
+              src={`http://localhost:3001/profiluser/${post.imageuser}`}
+              alt={post.imageuser}
+            />
           </div>
           <h2 className=" font-semibold">{post.username}</h2>
         </div>

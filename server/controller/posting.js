@@ -6,7 +6,7 @@ import { sequelize } from "../model2/init-models.js";
 
 const home = async (req, res) => {
   try {
-    const query = `select * from postinganhome`;
+    const query = `select * from postinghome`;
     const result = await sequelize.query(query);
     res.send(errorhandling(result[0], 200, "Sukses"));
   } catch (error) {
@@ -28,7 +28,7 @@ const insertpostingan = async (req, res) => {
   try {
     const { description, user_id } = req.body;
     const configsufix = Math.round(Math.random() * 1e9);
-
+    // console.log(description, user_id, req.file.buffer);
     await sharp(req.file.buffer)
       .resize({ width: 250, height: 250 })
       .png()

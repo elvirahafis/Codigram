@@ -1,8 +1,7 @@
 interface IPerson {
-  id: string
-  image: string
-  username: string
-  followedBy: string
+  username: string;
+  image: string;
+  id: any;
 }
 
-export default IPerson
+export default IPerson;

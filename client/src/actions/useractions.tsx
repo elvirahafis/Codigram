@@ -4,7 +4,8 @@ export const GET_LIST_HOME = "GET_LIST_HOME";
 export const GET_LIST_POSTING = "GET_LIST_POSTING";
 export const GET_LIST_USER = "GET_LIST_USER";
 
-export const getlisthome = () => {
+export const getlisthome = (userId: any) => {
+  console.log(userId, "userid");
   return (distpatch: any) => {
     distpatch({
       type: GET_LIST_HOME,
@@ -16,7 +17,7 @@ export const getlisthome = () => {
     });
     axios({
       method: "GET",
-      url: `http://localhost:3001/profil/9`,
+      url: `http://localhost:3001/profil/${userId}`,
       timeout: 12000,
     })
       .then((response) => {
