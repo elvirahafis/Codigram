@@ -8,19 +8,18 @@ const upload = multer({
   limits: {
     fileSize: 1000000,
   },
-  fileFilter(req, file, cb) {
+  fileFilter: async (req, file, cb) => {
     if (!file.originalname.match(/\.(jpg|jpeg|png|PNG)$/)) {
       return cb(new Error("Please upload a valid image file"));
     }
-    cb(undefined, true);
+    cb(null, true);
   },
 });
 
 router.post("/login", user.loginuser);
 router.post("/createuser", upload.single("imageuser"), user.createuser);
 router.get("/home", user.cekToken, posting.home);
-// router.get("/home", user.cekToken, posting.home);
-
+router.get("/listpostinguser/:id", posting.listpostinguser);
 router.post(
   "/insertpostingan",
   upload.single("imageuser"),

@@ -20,6 +20,7 @@ app.post("/post", (req, res) => {
 app.use(cors());
 app.use(router);
 app.use("/uploads", express.static("images"));
+
 app.listen(port, () => {
   console.log(`server litening on perp ${port}`);
 });

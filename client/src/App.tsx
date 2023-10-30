@@ -5,6 +5,7 @@ import StoryBoard from "./components/story-board";
 import store from "./reducer/index";
 import Login from "./components/Login/Login";
 import Signup from "./components/Register/register";
+import { Profile } from "./components/profil/profil";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import UploadFile from "./components/Posting/createpost";
@@ -16,6 +17,7 @@ const App: React.FC = ({}) => {
           <Route path="/" element={<Login />}></Route>
           <Route path="/register" element={<Signup />} />
           <Route path="/posting" element={<UploadFile />} />
+          <Route path="/profil" element={<Profile />} />
           <Route
             path="/home"
             element={

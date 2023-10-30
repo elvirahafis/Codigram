@@ -99,7 +99,16 @@ const updatepostingan = async (req, res) => {
     res.send(errorhandling(400, error.message));
   }
 };
-
+const listpostinguser = async (req, res) => {
+  try {
+    console.log(req.params.id);
+    const query = `SELECT * FROM postingan WHERE postingan.user_id= ${req.params.id}`;
+    const result = await sequelize.query(query);
+    res.send(errorhandling(result[0], 200, "Sukses"));
+  } catch (error) {
+    res.send(errorhandling(400, error.message));
+  }
+};
 export default {
   home,
   profil,
@@ -108,4 +117,5 @@ export default {
   deletepostingan,
   updatepostingan,
   pictpostingan,
+  listpostinguser,
 };

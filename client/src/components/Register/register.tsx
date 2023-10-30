@@ -6,7 +6,6 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 
-import Alert from "@mui/material/Alert";
 import "./register.css";
 import bg from "../../assets/insta.png";
 import insta from "../../assets/instagram-logo.png";
@@ -20,26 +19,8 @@ export default function Signup() {
   const [pswd, setPassword] = useState("");
   const [imageuser, setImage] = useState("");
   const navigate = useNavigate();
-  var body = {
-    usr: usr,
-    pswd: "pswd",
-    buffer: imageuser,
-  };
+
   const handleClick = (event: any) => {
-    console.log(usr, imageuser, "ss");
-    // let buffer = new FormData();
-    // buffer.append("imageuser", imageuser);
-    // buffer.append("usr", usr);
-    // buffer.append("pswd", pswd);
-    // imageuser.append("buffer", imageuserr);
-    // imageuser.append("destination", "uploads");
-    let body = {
-      usr: usr,
-      pswd: "pswd",
-      buffer: imageuser,
-    };
-    // console.log(usr, pswd, imageuser);
-    console.log(body, "as");
     event.preventDefault();
     Swal.fire({
       title: "Are you sure?",

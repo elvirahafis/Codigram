@@ -2,6 +2,7 @@ import {
   GET_LIST_HOME,
   GET_LIST_POSTING,
   GET_LIST_USER,
+  GET_LIST_USER_POST,
 } from "../../actions/useractions";
 
 const initialState = {
@@ -16,6 +17,10 @@ const initialState = {
   getlistuserResult: false,
   getlistuserLoading: false,
   getlistuserError: false,
+
+  getlistuserposResult: false,
+  getlistuserposLoading: false,
+  getlistuserposError: false,
 };
 const usersReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -36,12 +41,20 @@ const usersReducer = (state = initialState, action: any) => {
         getlistpostingError: action.payload.errorMessage,
       };
     case GET_LIST_USER:
-      console.log("4. Masuk Reducer :", action);
+      // console.log("4. Masuk Reducer :", action);
       return {
         ...state,
         getlistuserResult: action.payload.data,
         getlistuserLoading: action.payload.loading,
         getlistuserError: action.payload.errorMessage,
+      };
+    case GET_LIST_USER_POST:
+      console.log("4. Masuk Reducer :", action);
+      return {
+        ...state,
+        getlistuserposResult: action.payload.data,
+        getlistuserposLoading: action.payload.loading,
+        getlistuserposError: action.payload.errorMessage,
       };
     default:
       return state;

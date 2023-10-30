@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { getlistuser } from "../../actions/useractions";
 import { useAppSelector, useAppDispatch } from "../../reducer/hooks";
-
+import { Outlet, Link } from "react-router-dom";
 interface JwtPayload {
   username: string;
   exp: number;
@@ -40,17 +40,22 @@ const Panel = () => {
               alt="Random Guy"
             />
           </div>
+
           <div>
             <h2 className="font-semibold text-md">
               <h3 className="font-semibold text-md">{decodedToken.username}</h3>
             </h2>
           </div>
         </div>
+        <Link to="/profil">
+          <Button>Profil</Button>
+        </Link>
       </div>
 
       <div className="flex items-center justify-between">
         <h1 className="font-semibold text-md">This is my Account Codigram</h1>
       </div>
+      <Outlet />
     </section>
   );
 };
