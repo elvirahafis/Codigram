@@ -32,12 +32,12 @@ const loginuser = async (req, res) => {
 const createuser = async (req, res) => {
   try {
     const { usr, pswd } = req.body;
-    console.log(usr, pswd, req.file.imageuser);
+    console.log(req.body.usr, req.body.pswd, req.file.imageuser);
     const salt = bcrypt.genSaltSync(10);
     const passhash = bcrypt.hashSync(pswd, salt);
     const configsufix = Math.round(Math.random() * 1e9);
 
-    await sharp(req.file.imageuser)
+    await sharp(req.file.buffer)
       .resize({ width: 250, height: 250 })
       .png()
       .toFile(`./uploads/${configsufix}${req.file.originalname}`);

@@ -20,15 +20,26 @@ export default function Signup() {
   const [pswd, setPassword] = useState("");
   const [imageuser, setImage] = useState("");
   const navigate = useNavigate();
-
+  var body = {
+    usr: usr,
+    pswd: "pswd",
+    buffer: imageuser,
+  };
   const handleClick = (event: any) => {
     console.log(usr, imageuser, "ss");
-    // let imageuser = new FormData();
+    // let buffer = new FormData();
+    // buffer.append("imageuser", imageuser);
+    // buffer.append("usr", usr);
+    // buffer.append("pswd", pswd);
     // imageuser.append("buffer", imageuserr);
     // imageuser.append("destination", "uploads");
-
+    let body = {
+      usr: usr,
+      pswd: "pswd",
+      buffer: imageuser,
+    };
     // console.log(usr, pswd, imageuser);
-    // console.log(formData, "as");
+    console.log(body, "as");
     event.preventDefault();
     Swal.fire({
       title: "Are you sure?",
