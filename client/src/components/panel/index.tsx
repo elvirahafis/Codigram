@@ -47,15 +47,13 @@ const Panel = () => {
             </h2>
           </div>
         </div>
-        <Link to="/profil">
-          <Button>Profil</Button>
-        </Link>
+
+        <Button>Profil</Button>
       </div>
 
       <div className="flex items-center justify-between">
         <h1 className="font-semibold text-md">This is my Account Codigram</h1>
       </div>
-      <Outlet />
     </section>
   );
 };

@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import { Outlet, Link } from "react-router-dom";
 
 interface JwtPayload {
   username: string;
@@ -13,11 +14,14 @@ const Profile = () => {
   const decodedToken = jwtDecode<JwtPayload>(token);
   return (
     <div className="rounded-full overflow-hidden w-6 h-6 cursor-pointer">
-      <img
-        className="w-full"
-        src={`http://localhost:3001/profiluser/${decodedToken.image}`}
-        alt={decodedToken.id}
-      />
+      <Link to="/">
+        <img
+          className="w-full"
+          src={`http://localhost:3001/profiluser/${decodedToken.image}`}
+          alt={decodedToken.id}
+        />
+      </Link>
+      <Outlet />
     </div>
   );
 };

@@ -22,13 +22,14 @@ export const Profile = () => {
   const { getlistuserposResult, getlistuserposLoading, getlistuserposError } =
     useAppSelector((state) => state.users);
   const token: any = localStorage.getItem("access_token");
-  console.log(token, "123");
+  const id = useParams();
+  console.log(id, "123");
   const decodedToken = jwtDecode<JwtPayload>(token);
   const t = getlistuserposResult.length;
   const dispatch = useAppDispatch();
   useEffect(() => {
     // console.log("1. use effect home");
-    dispatch(getlistuserpost(decodedToken.id));
+    dispatch(getlistuserpost(id.id));
   }, [dispatch]);
   return (
     <>
@@ -104,10 +105,6 @@ export const Profile = () => {
                         : "Data Kosong"}
                     </p>
                   )}
-                  <div className="like-icon-wrapper">
-                    <FavoriteIcon className="like-icon" />
-                    <b></b>
-                  </div>
                 </div>
               </div>
             </div>

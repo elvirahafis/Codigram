@@ -90,9 +90,10 @@ const pictpostingan = async (req, res) => {
 };
 const updatepostingan = async (req, res) => {
   try {
+    console.log(req.body.description);
     const result = await models.postingan.update(
-      { description: req.body.description },
-      { where: { id: req.params.id } }
+      { description: req.body.description, updatedat: new Date() },
+      { where: { id: req.params.id }, returning: true }
     );
     res.send(errorhandling(result, 200, "Sukses"));
   } catch (error) {
@@ -102,9 +103,20 @@ const updatepostingan = async (req, res) => {
 const listpostinguser = async (req, res) => {
   try {
     console.log(req.params.id);
-    const query = `SELECT * FROM postingan WHERE postingan.user_id= ${req.params.id}`;
+    const query = `SELECT id,description, image,user_id,path, DATE(postingan.updatedat) as createdat 
+    FROM postingan WHERE postingan.user_id= ${req.params.id} ORDER BY  postingan.createdat DESC`;
     const result = await sequelize.query(query);
     res.send(errorhandling(result[0], 200, "Sukses"));
+  } catch (error) {
+    res.send(errorhandling(400, error.message));
+  }
+};
+const detailprofil = async (req, res) => {
+  try {
+    const result = await models.postingan.findOne({
+      where: { id: req.params.id },
+    });
+    res.send(errorhandling(result, 200, "Sukses"));
   } catch (error) {
     res.send(errorhandling(400, error.message));
   }
@@ -118,4 +130,5 @@ export default {
   updatepostingan,
   pictpostingan,
   listpostinguser,
+  detailprofil,
 };

@@ -25,15 +25,12 @@ router.post(
   upload.single("imageuser"),
   posting.insertpostingan
 );
-router.post(
-  "/updatepostingan/:id",
-  upload.single("imageuser"),
-  posting.updatepostingan
-);
+router.post("/updatepostingan/:id", posting.updatepostingan);
 router.post("/updateuser/:id", user.updateprofiluser);
 router.delete("/deletepostingan/:id", posting.deletepostingan);
 router.get("/profil/:id", user.profiluser);
 router.get("/uploads/:filename", posting.pictpostingan);
 router.get("/profiluser/:filename", user.pictuser);
 router.get("/listuser", user.listprofil);
+router.get("/detail/:id", posting.detailprofil);
 export default router;

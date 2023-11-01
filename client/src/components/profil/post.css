@@ -64,3 +64,12 @@
   color: #ccc;
   margin-top: 8px;
 }
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.threedots:after {
+  content: "\2807";
+  font-size: 30px;
+}

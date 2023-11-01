@@ -7,12 +7,18 @@ import {
   MessageIcon,
   ShareIcon,
 } from "./icons";
-
+import { useNavigate } from "react-router-dom";
+import { generatePath } from "react-router-dom";
 interface IProps {
   post: IPost;
 }
 
 const Post = ({ post }: IProps) => {
+  const navigate = useNavigate();
+  console.log(post.id, "123");
+  const detailuser = () => {
+    post.id && navigate(generatePath("/profil/:id", { id: post.id }));
+  };
   return (
     <div className="relative card space-y-4 content center">
       {/* Heading */}
@@ -25,7 +31,15 @@ const Post = ({ post }: IProps) => {
               alt={post.imageuser}
             />
           </div>
-          <h2 className=" font-semibold">{post.username}</h2>
+          {/* <Link to="/profil"> */}
+          <h2 onClick={detailuser} className=" font-semibold cursor-pointer">
+            {post.username}
+            <span className="font-semibold" style={{ display: "none" }}>
+              {post.id}{" "}
+            </span>
+          </h2>
+          {/* </Link>
+          <Outlet /> */}
         </div>
         <DotsHorizontalIcon className="w-5 h-5 cursor-pointer" />
       </div>

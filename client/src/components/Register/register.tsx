@@ -109,9 +109,7 @@ export default function Signup() {
                 color="secondary"
                 fullWidth={true}
                 variant="outlined"
-                margin="dense"
                 component="span"
-                type="file"
               >
                 Upload Profile Image
               </Button>

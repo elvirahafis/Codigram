@@ -1,6 +1,8 @@
 import { DotsHorizontalIcon } from "@heroicons/react/outline";
-// import { TrashIcon } from "@heroicons/24/outline";
+import axios from "axios";
+import Swal from "sweetalert2";
 import IPost from "../../schemas/post";
+import { useState } from "react";
 import {
   BookmarkIcon,
   EmojiCollection,
@@ -9,7 +11,11 @@ import {
   ShareIcon,
 } from "./icons";
 import { jwtDecode } from "jwt-decode";
-
+import { generatePath, useNavigate, useParams } from "react-router-dom";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
+import { Outlet, Link } from "react-router-dom";
+import { Button } from "@mui/material";
 interface IProps {
   post: IPost;
 }
@@ -21,8 +27,41 @@ interface JwtPayload {
 }
 const Post = ({ post }: IProps) => {
   const token: any = localStorage.getItem("access_token");
-  console.log(token, "123");
+  const navigate = useNavigate();
   const decodedToken = jwtDecode<JwtPayload>(token);
+  const userId = decodedToken.id;
+  // const [IDPos, setID] = useState();
+  // setID(post.id);
+  // console.log(IDPos, "123");
+  const editposting = (e: any) => {
+    post.id && navigate(generatePath("/editpostingan/:id", { id: post.id }));
+  };
+  const deletedata = () => {
+    console.log(post.id, "1234");
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await axios({
+            method: "DELETE",
+            url: `http://localhost:3001/deletepostingan/${post.id}`,
+          });
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          navigate(0);
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="relative card space-y-4 content center">
       {/* Heading */}
@@ -38,7 +77,18 @@ const Post = ({ post }: IProps) => {
           <h2 className=" font-semibold">{decodedToken.username}</h2>
         </div>
         {/* <TrashIcon class="h-6 w-6 text-gray-500" /> */}
-        <DotsHorizontalIcon className="w-5 h-5 cursor-pointer" />
+        {/* <Dropdown
+          options={options}
+          // onChange={onselect.bind(null, null)}
+          value={defaultOption}
+          placeholder="Select an option"
+        /> */}
+
+        <DotsHorizontalIcon
+          className="w-5 h-5 cursor-pointer"
+          onClick={deletedata}
+        />
+        {/* <BackspaceIcon class="h-6 w-6 text-gray-500" />; */}
       </div>
       {/* Posted Image */}
       <div className="relative -mx-5 aspect-square overflow-hidden">
@@ -56,18 +106,25 @@ const Post = ({ post }: IProps) => {
             <MessageIcon />
             <ShareIcon />
           </div>
-          <BookmarkIcon />
+
+          <Button onClick={editposting}>
+            <span className="font-semibold" style={{ display: "none" }}>
+              {post.id}{" "}
+            </span>
+            <BookmarkIcon />
+          </Button>
         </div>
         <span className=" font-semibold">{` 100 likes`}</span>
         <p>
           <span className="font-semibold">{post.username} </span>
+
           {post.description}
         </p>
         <h3 className="text-xs text-gray-500">{post.createdat}</h3>
       </div>
 
       <div className="h-[1px] relative left-0 right-0 bg-gray-200 -mx-5"></div>
-
+      <Outlet />
       <div className="flex gap-4"></div>
     </div>
   );

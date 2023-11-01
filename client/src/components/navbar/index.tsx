@@ -13,7 +13,9 @@ const Navbar = () => {
       <Searchbar />
       <div className="flex items-center gap-5">
         <ul className="sm:flex items-center gap-5 hidden">
-          <Path Icon={HomeIcon} />
+          <Link to="/home">
+            <Path Icon={HomeIcon} />
+          </Link>
           {/* <Path Icon={MessengerIcon} /> */}
           <Link to="/posting">
             <Path Icon={PostIcon} />
