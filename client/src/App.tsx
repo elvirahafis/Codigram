@@ -5,8 +5,10 @@ import StoryBoard from "./components/story-board";
 import store from "./reducer/index";
 import Login from "./components/Login/Login";
 import Signup from "./components/Register/register";
+import { DetailP } from "./components/detailuser/profil";
 import { Profile } from "./components/profil/profil";
 import Editpost from "./components/Posting/editpost";
+import Edituser from "./components/profil/edituser";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import UploadFile from "./components/Posting/createpost";
@@ -19,7 +21,9 @@ const App: React.FC = ({}) => {
           <Route path="/register" element={<Signup />} />
           <Route path="/posting" element={<UploadFile />} />
           <Route path="/profil/:id" element={<Profile />} />
+          <Route path="/Detail/:id" element={<DetailP />} />
           <Route path="/editpostingan/:id" element={<Editpost />} />
+          <Route path="/edituser/:id" element={<Edituser />} />
           <Route
             path="/home"
             element={

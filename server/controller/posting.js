@@ -3,6 +3,7 @@ import models from "../model2/init-models.js";
 import sharp from "sharp";
 import path from "path";
 import { sequelize } from "../model2/init-models.js";
+import { Model } from "sequelize";
 
 const home = async (req, res) => {
   try {
@@ -121,6 +122,23 @@ const detailprofil = async (req, res) => {
     res.send(errorhandling(400, error.message));
   }
 };
+const userlist = async (req, res) => {
+  try {
+    const result = await models.users.destroy({
+      where: { username: req.body.usr },
+    });
+    res.send(errorhandling(result, 200, "Sukses"));
+  } catch (error) {
+    res.send(errorhandling(400, error.message));
+  }
+};
+const searchpos = async (req, res) => {
+  try {
+    res.send("id: " + req.query.id);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 export default {
   home,
   profil,
@@ -131,4 +149,6 @@ export default {
   pictpostingan,
   listpostinguser,
   detailprofil,
+  userlist,
+  searchpos,
 };

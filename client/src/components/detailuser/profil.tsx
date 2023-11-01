@@ -1,11 +1,11 @@
 import { Avatar, Button } from "@mui/material";
 import Post from "./post";
 import React, { useEffect, useState } from "react";
-import { getlistuserpost } from "../../actions/useractions";
+import { getdetailuser, getlistuserpost } from "../../actions/useractions";
 import { useAppSelector, useAppDispatch } from "../../reducer/hooks";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Layout from "../layout";
-import { useParams, useNavigate, generatePath } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./profil.css";
 import { jwtDecode } from "jwt-decode";
@@ -18,38 +18,23 @@ interface JwtPayload {
 
   // whatever else is in the JWT.
 }
-export const Profile = () => {
+export const DetailP = () => {
   const { getlistuserposResult, getlistuserposLoading, getlistuserposError } =
     useAppSelector((state) => state.users);
-  const [image, setImage] = useState();
-  const [username, setUsername] = useState();
+  const { getlistdetailResult, getlistdetailLoading, getlistdetailError } =
+    useAppSelector((state) => state.users);
+  // console.log(getlistdetailResult, "12345");
   const token: any = localStorage.getItem("access_token");
   const id = useParams();
-  console.log(getlistuserposResult);
-  const navigate = useNavigate();
+  const detail = [getlistdetailResult];
   const decodedToken = jwtDecode<JwtPayload>(token);
   const t = getlistuserposResult.length;
   const dispatch = useAppDispatch();
-
-  const getdatauser = async () => {
-    const response = await axios.get(
-      `http://localhost:3001/profil/${decodedToken.id}`
-    );
-    const data = await response.data.data_codigram;
-
-    setUsername(data.username);
-    setImage(data.image);
-  };
-
   useEffect(() => {
     // console.log("1. use effect home");
+    dispatch(getdetailuser(id.id));
     dispatch(getlistuserpost(id.id));
-    getdatauser();
   }, [dispatch]);
-  const editdata = () => {
-    decodedToken.id &&
-      navigate(generatePath("/edituser/:id", { id: decodedToken.id }));
-  };
   return (
     <>
       <Layout>
@@ -57,17 +42,40 @@ export const Profile = () => {
           <div className="profile-page">
             <div className="profile-head">
               <div className="head-left">
-                <Avatar
-                  src={`http://localhost:3001/profiluser/${image}`}
-                  sx={{ width: 150, height: 150 }}
-                />
+                {getlistdetailResult ? (
+                  detail.map((post: any) => (
+                    <Avatar
+                      src={`http://localhost:3001/profiluser/${post.image}`}
+                      sx={{ width: 150, height: 150 }}
+                    />
+                  ))
+                ) : getlistdetailLoading ? (
+                  <p> Loading . . .</p>
+                ) : (
+                  <p>
+                    {" "}
+                    {getlistdetailError ? getlistdetailError : "Data Kosong"}
+                  </p>
+                )}
               </div>
               <div className="head-right content center">
                 <div className="head-right-top">
-                  <span className="profile-page-username">{username}</span>
-                  <div className="follower-count cursor-pointer">
-                    <span onClick={editdata}>Edit Profile</span>
-                  </div>
+                  {getlistdetailResult ? (
+                    detail.map((post: any) => (
+                      <span className="profile-page-username">
+                        {post.username}
+                      </span>
+                    ))
+                  ) : getlistdetailLoading ? (
+                    <p> Loading . . .</p>
+                  ) : (
+                    <p>
+                      {" "}
+                      {getlistdetailError ? getlistdetailError : "Data Kosong"}
+                    </p>
+                  )}
+
+                  <div className="profile-page-buttons"></div>
                 </div>
                 <div className="head-right-center">
                   <div className="post-count">

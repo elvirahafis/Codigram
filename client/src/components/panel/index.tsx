@@ -17,16 +17,16 @@ interface JwtPayload {
 }
 const Panel = () => {
   const token: any = localStorage.getItem("access_token");
-  console.log(token, "123");
+  // console.log(token, "123");
   const decodedToken = jwtDecode<JwtPayload>(token);
   const { getlistuserResult, getlistuserLoading, getlistuserError } =
     useAppSelector((state) => state.users);
   // const t = Object.entries(getlisthomeResult);
-  console.log(getlistuserResult, "w");
+  // console.log(getlistuserResult, "w");
   const t = [getlistuserResult];
   const dispatch = useAppDispatch();
   useEffect(() => {
-    console.log("1. use effect home");
+    // console.log("1. use effect home");
     dispatch(getlistuser());
   }, [dispatch]);
   return (

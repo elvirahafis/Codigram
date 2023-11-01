@@ -44,7 +44,7 @@ export default function Signup() {
             "content-type": "multipart/form-data",
           },
         }).then((response: any) => {
-          console.log("3. berhasil  data :", response.data);
+          // console.log("3. berhasil  data :", response.data);
           //   const access_token = response.data.data_codigram;
           //   console.log(access_token);
           //   localStorage.setItem("access_token", access_token);

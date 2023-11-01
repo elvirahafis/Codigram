@@ -1,34 +1,52 @@
 import * as React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
-import { jwtDecode } from "jwt-decode";
-import Alert from "@mui/material/Alert";
-import "./createpost.css";
+import "./edituser.css";
 import bg from "../../assets/insta.png";
 import insta from "../../assets/instagram-logo.png";
 import TextField from "@mui/material/TextField";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { jwtDecode } from "jwt-decode";
 
 interface JwtPayload {
+  username: string;
+  exp: number;
   id: any;
+  image: any;
+  email: any;
+  password: any;
+  // whatever else is in the JWT.
 }
-export default function UploadFile() {
-  const [description, setDescription] = useState("");
+export default function Edituser() {
+  const [usr, setEmail] = useState("");
+  const [pswd, setPassword] = useState("");
   const [imageuser, setImage] = useState("");
+
   const navigate = useNavigate();
   const token: any = localStorage.getItem("access_token");
-  // console.log(token, "123");
   const decodedToken = jwtDecode<JwtPayload>(token);
-  const user_id = decodedToken.id;
-  const handleClick = (event: any) => {
-    // console.log(description, user_id, imageuser);
 
+  const getdatauser = async () => {
+    const response = await axios.get(
+      `http://localhost:3001/profil/${decodedToken.id}`
+    );
+    const data = await response.data.data_codigram;
+
+    setEmail(data.username);
+    setImage(data.image);
+  };
+  useEffect(() => {
+    getdatauser();
+  }, []);
+
+  const handleClick = (event: any) => {
+    console.log(usr, pswd);
     event.preventDefault();
     Swal.fire({
       title: "Are you sure?",
@@ -39,22 +57,26 @@ export default function UploadFile() {
       confirmButtonText: "Yes",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        // axios;
+        //   .post("http://localhost:3001/register", formData, {
+        //     headers: { "Content-Type": "multipart/form-data" },
+        //   })
         axios({
           method: "POST",
-          url: `http://localhost:3001/insertpostingan`,
+          url: `http://localhost:3001/updateuser/${decodedToken.id}`,
           timeout: 12000,
-          data: { description, user_id, imageuser },
-          headers: {
-            "content-type": "multipart/form-data",
-          },
+          data: { usr, pswd },
         }).then((response: any) => {
           // console.log("3. berhasil  data :", response.data);
+          //   const access_token = response.data.data_codigram;
+          //   console.log(access_token);
+          //   localStorage.setItem("access_token", access_token);
           if (response.data.data_codigram !== 400) {
             Swal.fire({
               icon: "success",
-              text: "Create Posting Succes",
+              text: "Create User Succes",
             });
-            navigate("/home");
+            navigate(`/profil/${decodedToken.id}`);
           } else {
             Swal.fire({
               icon: "warning",
@@ -73,50 +95,67 @@ export default function UploadFile() {
             <img src={insta} alt="" />
           </div>
           <CardContent>
+            <Typography variant="subtitle1">Update Your Profile</Typography>
+            {/* {error != "" && <Alert severity="error">{error}</Alert>} */}
             <TextField
               id="outlined-basic"
-              label="Description"
+              label="Username"
               variant="outlined"
               fullWidth={true}
               margin="dense"
               size="small"
-              value={description}
-              onChange={(e: any) => setDescription(e.target.value)}
+              value={usr}
+              onChange={(e: any) => setEmail(e.target.value)}
             />
+            <TextField
+              id="outlined-basic"
+              label="Password"
+              variant="outlined"
+              fullWidth={true}
+              margin="dense"
+              size="small"
+              value={pswd}
+              onChange={(e: any) => setPassword(e.target.value)}
+            />
+            <div className="relative -mx-5 aspect-square overflow-hidden">
+              <img
+                className="w-full"
+                src={`http://localhost:3001/profiluser/${imageuser}`}
+                alt={imageuser}
+              />
+            </div>
             <input
               type="file"
               accept="image/*"
               style={{ display: "none" }}
               id="contained-button-file"
+              //   value={imageuser}
               onChange={(e: any) => setImage(e.target.files[0])}
             />
-            <label htmlFor="contained-button-file">
+            {/* <label htmlFor="contained-button-file">
               <Button
                 color="secondary"
                 fullWidth={true}
                 variant="outlined"
                 component="span"
               >
-                Upload Image
+                Upload Profile Image
               </Button>
-            </label>
+            </label> */}
           </CardContent>
           <CardActions>
             <Button
               color="primary"
               fullWidth={true}
               variant="contained"
+              //   disabled={loading}
               onClick={handleClick}
             >
-              Posting
+              Sign up
             </Button>
           </CardActions>
         </Card>
-        <Card variant="outlined">
-          <CardContent>
-            <Typography variant="subtitle1"> </Typography>
-          </CardContent>
-        </Card>
+        <Card variant="outlined"></Card>
       </div>
     </div>
   );

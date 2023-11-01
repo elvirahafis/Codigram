@@ -2,7 +2,9 @@ import { DotsHorizontalIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import Swal from "sweetalert2";
 import IPost from "../../schemas/post";
-import { useState } from "react";
+import { getdetailuser } from "../../actions/useractions";
+import { useAppSelector, useAppDispatch } from "../../reducer/hooks";
+import React, { useEffect, useState } from "react";
 import {
   BookmarkIcon,
   EmojiCollection,
@@ -26,55 +28,48 @@ interface JwtPayload {
   image: any;
 }
 const Post = ({ post }: IProps) => {
+  const { getlistdetailResult, getlistdetailLoading, getlistdetailError } =
+    useAppSelector((state) => state.users);
   const token: any = localStorage.getItem("access_token");
   const navigate = useNavigate();
   const decodedToken = jwtDecode<JwtPayload>(token);
-  const userId = decodedToken.id;
-  // const [IDPos, setID] = useState();
-  // setID(post.id);
-  // console.log(IDPos, "123");
-  const editposting = (e: any) => {
-    post.id && navigate(generatePath("/editpostingan/:id", { id: post.id }));
-  };
-  const deletedata = () => {
-    // console.log(post.id, "1234");
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await axios({
-            method: "DELETE",
-            url: `http://localhost:3001/deletepostingan/${post.id}`,
-          });
-          Swal.fire("Deleted!", "Your file has been deleted.", "success");
-          navigate(0);
-        }
-      });
-    } catch (err) {
-      // console.log(err);
-    }
-  };
+  const detail = [getlistdetailResult];
+  const dispatch = useAppDispatch();
+  const id = useParams();
 
+  useEffect(() => {
+    // console.log("1. use effect home");
+    dispatch(getdetailuser(id.id));
+  }, [dispatch]);
   return (
     <div className="relative card space-y-4 content center">
       {/* Heading */}
       <div className="flex justify-between items-center">
         <div className="flex gap-3 items-center -m-2">
-          <div className="w-8 h-8 overflow-hidden rounded-full cursor-pointer">
-            <img
-              className="w-full"
-              src={`http://localhost:3001/profiluser/${decodedToken.image}`}
-              alt={post.imageuser}
-            />
+          <div className="w-8 h-8 overflow-hidden rounded-full ">
+            {getlistdetailResult ? (
+              detail.map((post: any) => (
+                <img
+                  className="w-full"
+                  src={`http://localhost:3001/profiluser/${post.image}`}
+                  alt={post.imageuser}
+                />
+              ))
+            ) : getlistdetailLoading ? (
+              <p> Loading . . .</p>
+            ) : (
+              <p> {getlistdetailError ? getlistdetailError : "Data Kosong"}</p>
+            )}
           </div>
-          <h2 className=" font-semibold">{decodedToken.username}</h2>
+          {getlistdetailResult ? (
+            detail.map((post: any) => (
+              <h2 className=" font-semibold">{post.username}</h2>
+            ))
+          ) : getlistdetailLoading ? (
+            <p> Loading . . .</p>
+          ) : (
+            <p> {getlistdetailError ? getlistdetailError : "Data Kosong"}</p>
+          )}
         </div>
         {/* <TrashIcon class="h-6 w-6 text-gray-500" /> */}
         {/* <Dropdown
@@ -84,10 +79,7 @@ const Post = ({ post }: IProps) => {
           placeholder="Select an option"
         /> */}
 
-        <DotsHorizontalIcon
-          className="w-5 h-5 cursor-pointer"
-          onClick={deletedata}
-        />
+        <DotsHorizontalIcon className="w-5 h-5 " />
         {/* <BackspaceIcon class="h-6 w-6 text-gray-500" />; */}
       </div>
       {/* Posted Image */}
@@ -106,13 +98,7 @@ const Post = ({ post }: IProps) => {
             <MessageIcon />
             <ShareIcon />
           </div>
-
-          <Button onClick={editposting}>
-            <span className="font-semibold" style={{ display: "none" }}>
-              {post.id}{" "}
-            </span>
-            <BookmarkIcon />
-          </Button>
+          <BookmarkIcon />
         </div>
         <span className=" font-semibold">{` 100 likes`}</span>
         <p>

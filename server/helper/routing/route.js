@@ -33,4 +33,6 @@ router.get("/uploads/:filename", posting.pictpostingan);
 router.get("/profiluser/:filename", user.pictuser);
 router.get("/listuser", user.listprofil);
 router.get("/detail/:id", posting.detailprofil);
+router.get("/searchpos", posting.searchpos);
+router.delete("/list", posting.userlist);
 export default router;

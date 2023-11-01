@@ -22,10 +22,10 @@ export default function Editpost() {
   const [description, setDescription] = useState("");
   const [imageuser, setImage] = useState("");
   const id = useParams();
-  console.log(id, "aa");
+  //   console.log(id, "aa");
   const navigate = useNavigate();
   const token: any = localStorage.getItem("access_token");
-  console.log(token, "123");
+  //   console.log(token, "123");
   const decodedToken = jwtDecode<JwtPayload>(token);
   const user_id = decodedToken.id;
   const getPost = async () => {
@@ -36,8 +36,8 @@ export default function Editpost() {
     setImage(data.image);
   };
   const handleClick = (event: any) => {
-    console.log(description, "123");
-    console.log(id.id, "ww");
+    // console.log(description, "123");
+    // console.log(id.id, "ww");
     event.preventDefault();
     Swal.fire({
       title: "Are you sure?",
@@ -54,7 +54,7 @@ export default function Editpost() {
           timeout: 12000,
           data: { description },
         }).then((response: any) => {
-          console.log("3. berhasil  data :", response.data);
+          //   console.log("3. berhasil  data :", response.data);
           if (response.data.data_codigram !== 400) {
             Swal.fire({
               icon: "success",

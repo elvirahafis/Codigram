@@ -8,11 +8,11 @@ const StoryBoard = () => {
   const { getlistuserResult, getlistuserLoading, getlistuserError } =
     useAppSelector((state) => state.users);
   // const t = Object.entries(getlisthomeResult);
-  console.log(getlistuserResult, "w");
+  // console.log(getlistuserResult, "w");
   const t = [getlistuserResult];
   const dispatch = useAppDispatch();
   useEffect(() => {
-    console.log("1. use effect home");
+    // console.log("1. use effect home");
     dispatch(getlistuser());
   }, [dispatch]);
   return (
@@ -20,7 +20,7 @@ const StoryBoard = () => {
       {getlistuserResult ? (
         getlistuserResult.map((story: IStory, i: any) => {
           // let username = story?.username?.split(" ").join("").toLowerCase();
-          console.log(story.image);
+          // console.log(story.image);
           // username =
           //   username.length <= 10 ? username : `${username.slice(0, 8)}...`;
           return (

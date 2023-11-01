@@ -15,9 +15,9 @@ interface IProps {
 
 const Post = ({ post }: IProps) => {
   const navigate = useNavigate();
-  console.log(post.id, "123");
+  // console.log(post.id, "123");
   const detailuser = () => {
-    post.id && navigate(generatePath("/profil/:id", { id: post.id }));
+    post.user_id && navigate(generatePath("/Detail/:id", { id: post.user_id }));
   };
   return (
     <div className="relative card space-y-4 content center">
@@ -35,7 +35,7 @@ const Post = ({ post }: IProps) => {
           <h2 onClick={detailuser} className=" font-semibold cursor-pointer">
             {post.username}
             <span className="font-semibold" style={{ display: "none" }}>
-              {post.id}{" "}
+              {post.user_id}{" "}
             </span>
           </h2>
           {/* </Link>

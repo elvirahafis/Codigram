@@ -33,7 +33,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleClick = (event: any) => {
-    console.log(usr, pswd, "ss");
+    // console.log(usr, pswd, "ss");
     event.preventDefault();
     Swal.fire({
       title: "Are you sure?",
@@ -50,11 +50,11 @@ export default function Login() {
           timeout: 12000,
           data: { usr, pswd },
         }).then((response) => {
-          console.log("3. berhasil  data :", response.data);
+          // console.log("3. berhasil  data :", response.data);
           const access_token = response.data.data_codigram;
-          console.log(access_token);
+          // console.log(access_token);
           localStorage.setItem("access_token", access_token);
-          if (response.data.data !== 400) {
+          if (response.data.data_codigram !== 400) {
             Swal.fire({
               icon: "success",
               text: "Login Succes",

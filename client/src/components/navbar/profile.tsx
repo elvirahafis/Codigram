@@ -10,7 +10,7 @@ interface JwtPayload {
 }
 const Profile = () => {
   const token: any = localStorage.getItem("access_token");
-  console.log(token, "123");
+  // console.log(token, "123");
   const decodedToken = jwtDecode<JwtPayload>(token);
   return (
     <div className="rounded-full overflow-hidden w-6 h-6 cursor-pointer">

@@ -111,19 +111,14 @@ const listprofil = async (req, res) => {
 };
 const updateprofiluser = async (req, res) => {
   try {
+    const { usr, pswd } = req.body;
     const salt = bcrypt.genSaltSync(10);
-    const passhash = bcrypt.hashSync(req.body.pswd, salt);
-    await sharp(req.file.buffer)
-      .resize({ width: 250, height: 250 })
-      .png()
-      .toFile(`./uploads/${configsufix}${req.file.originalname}`);
-
-    const t = req.file.mimetype;
-    const imageG = `${configsufix}${req.file.originalname}`;
+    const passhash = bcrypt.hashSync(pswd, salt);
     const result = await models.users.update(
-      { username: req.body.usr, password: passhash, image: imageG, path: t },
+      { username: usr, password: passhash },
       { where: { id: req.params.id }, returning: true }
     );
+    res.send(errorhandling(result, 200, "Sukses"));
   } catch (error) {
     res.send(errorhandling(400, error.message));
   }
