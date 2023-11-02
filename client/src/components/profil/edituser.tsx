@@ -46,7 +46,6 @@ export default function Edituser() {
   }, []);
 
   const handleClick = (event: any) => {
-    console.log(usr, pswd);
     event.preventDefault();
     Swal.fire({
       title: "Are you sure?",
@@ -151,7 +150,7 @@ export default function Edituser() {
               //   disabled={loading}
               onClick={handleClick}
             >
-              Sign up
+              Edit Profile
             </Button>
           </CardActions>
         </Card>

@@ -1,33 +1,37 @@
-import people from "../../data/people";
-import IPerson from "../../schemas/person";
 import Button from "./button";
-import Person from "./person";
 import { jwtDecode } from "jwt-decode";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getlistuser } from "../../actions/useractions";
 import { useAppSelector, useAppDispatch } from "../../reducer/hooks";
-import { Outlet, Link } from "react-router-dom";
+import axios from "axios";
 interface JwtPayload {
   username: string;
   exp: number;
   id: any;
   image: any;
-
-  // whatever else is in the JWT.
 }
 const Panel = () => {
   const token: any = localStorage.getItem("access_token");
-  // console.log(token, "123");
   const decodedToken = jwtDecode<JwtPayload>(token);
   const { getlistuserResult, getlistuserLoading, getlistuserError } =
     useAppSelector((state) => state.users);
-  // const t = Object.entries(getlisthomeResult);
-  // console.log(getlistuserResult, "w");
+  const [image, setImage] = useState();
+  const [username, setUsername] = useState();
   const t = [getlistuserResult];
   const dispatch = useAppDispatch();
+
+  const getdatauser = async () => {
+    const response = await axios.get(
+      `http://localhost:3001/profil/${decodedToken.id}`
+    );
+    const data = await response.data.data_codigram;
+
+    setUsername(data.username);
+    setImage(data.image);
+  };
   useEffect(() => {
-    // console.log("1. use effect home");
     dispatch(getlistuser());
+    getdatauser();
   }, [dispatch]);
   return (
     <section className="w-[22rem] hidden lg:block lg:fixed ml-[30.5rem] space-y-4 pt-4 px-4">
@@ -36,14 +40,14 @@ const Panel = () => {
           <div className="rounded-full overflow-hidden w-16 h-16 cursor-pointer">
             <img
               className="w-full"
-              src={`http://localhost:3001/profiluser/${decodedToken.image}`}
+              src={`http://localhost:3001/profiluser/${image}`}
               alt="Random Guy"
             />
           </div>
 
           <div>
             <h2 className="font-semibold text-md">
-              <h3 className="font-semibold text-md">{decodedToken.username}</h3>
+              <h3 className="font-semibold text-md">{username}</h3>
             </h2>
           </div>
         </div>

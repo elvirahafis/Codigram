@@ -2,7 +2,7 @@ import { DotsHorizontalIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import Swal from "sweetalert2";
 import IPost from "../../schemas/post";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   BookmarkIcon,
   EmojiCollection,
@@ -12,7 +12,7 @@ import {
 } from "./icons";
 import { jwtDecode } from "jwt-decode";
 import { generatePath, useNavigate, useParams } from "react-router-dom";
-import Dropdown from "react-dropdown";
+import { useAppDispatch } from "../../reducer/hooks";
 import "react-dropdown/style.css";
 import { Outlet, Link } from "react-router-dom";
 import { Button } from "@mui/material";
@@ -30,12 +30,25 @@ const Post = ({ post }: IProps) => {
   const navigate = useNavigate();
   const decodedToken = jwtDecode<JwtPayload>(token);
   const userId = decodedToken.id;
-  // const [IDPos, setID] = useState();
-  // setID(post.id);
-  // console.log(IDPos, "123");
+  const [image, setImage] = useState();
+  const [username, setUsername] = useState();
+
   const editposting = (e: any) => {
     post.id && navigate(generatePath("/editpostingan/:id", { id: post.id }));
   };
+  const getdatauser = async () => {
+    const response = await axios.get(
+      `http://localhost:3001/profil/${decodedToken.id}`
+    );
+    const data = await response.data.data_codigram;
+
+    setUsername(data.username);
+    setImage(data.image);
+  };
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    getdatauser();
+  }, [dispatch]);
   const deletedata = () => {
     // console.log(post.id, "1234");
     try {
@@ -70,11 +83,11 @@ const Post = ({ post }: IProps) => {
           <div className="w-8 h-8 overflow-hidden rounded-full cursor-pointer">
             <img
               className="w-full"
-              src={`http://localhost:3001/profiluser/${decodedToken.image}`}
-              alt={post.imageuser}
+              src={`http://localhost:3001/profiluser/${image}`}
+              alt={image}
             />
           </div>
-          <h2 className=" font-semibold">{decodedToken.username}</h2>
+          <h2 className=" font-semibold">{username}</h2>
         </div>
         {/* <TrashIcon class="h-6 w-6 text-gray-500" /> */}
         {/* <Dropdown
