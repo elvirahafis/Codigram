@@ -13,10 +13,8 @@ import {
   ButtonNext,
 } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
-
-import Alert from "@mui/material/Alert";
+import Cookies from "js-cookie";
 import "./Login.css";
-
 import { TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import bg from "../../assets/insta.png";
@@ -54,6 +52,7 @@ export default function Login() {
           const access_token = response.data.data_codigram;
           // console.log(access_token);
           localStorage.setItem("access_token", access_token);
+          Cookies.set("access_token", access_token);
           if (response.data.data_codigram !== 400) {
             Swal.fire({
               icon: "success",

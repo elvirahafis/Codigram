@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { Outlet, Link } from "react-router-dom";
-
+import Cookies from "js-cookie";
 interface JwtPayload {
   username: string;
   exp: number;
