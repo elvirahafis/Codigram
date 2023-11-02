@@ -15,7 +15,9 @@ interface IProps {
 
 const Post = ({ post }: IProps) => {
   const navigate = useNavigate();
-  // console.log(post.id, "123");
+  const detailpostingan = () => {
+    post.id && navigate(generatePath("/Detailpostingan/:id", { id: post.id }));
+  };
   const detailuser = () => {
     post.user_id && navigate(generatePath("/Detail/:id", { id: post.user_id }));
   };
@@ -44,8 +46,12 @@ const Post = ({ post }: IProps) => {
         <DotsHorizontalIcon className="w-5 h-5 cursor-pointer" />
       </div>
       {/* Posted Image */}
-      <div className="relative -mx-5 aspect-square overflow-hidden">
+      <div className="relative -mx-5 aspect-square overflow-hidden cursor-pointer">
+        <span className="font-semibold" style={{ display: "none" }}>
+          {post.id}{" "}
+        </span>
         <img
+          onClick={detailpostingan}
           className="w-full"
           src={`http://localhost:3001/uploads/${post.imageposting}`}
           alt={post.username}
@@ -53,15 +59,6 @@ const Post = ({ post }: IProps) => {
       </div>
       {/* Actions */}
       <div className="space-y-2">
-        <div className="flex justify-between mb-2">
-          <div className="flex items-center gap-4">
-            <HeartIcon />
-            <MessageIcon />
-            <ShareIcon />
-          </div>
-          <BookmarkIcon />
-        </div>
-        <span className=" font-semibold">{` 100 likes`}</span>
         <p>
           <span className="font-semibold">{post.username} </span>
           {post.description}

@@ -5,7 +5,7 @@ export const GET_LIST_POSTING = "GET_LIST_POSTING";
 export const GET_LIST_USER = "GET_LIST_USER";
 export const GET_LIST_USER_POST = "GET_LIST_USER_POST";
 export const GET_LIST_DETAILP = "GET_LIST_DETAILP";
-
+export const GET_LIST_POSTSEARCH = "GET_LIST_POSTSEARCH";
 export const getlistuserpost = (userId: any) => {
   // console.log(userId, "userid");
   return (distpatch: any) => {
@@ -106,7 +106,7 @@ export const getlistposting = () => {
       },
     })
       .then((response) => {
-        // console.log("3. berhasil  data :", response.data.data_codigram);
+        console.log("3. data :", response.data);
         distpatch({
           type: GET_LIST_POSTING,
           payload: {
@@ -120,6 +120,43 @@ export const getlistposting = () => {
         // console.log("4. Gagal dapat data :", error);
         distpatch({
           type: GET_LIST_POSTING,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: error.message,
+          },
+        });
+      });
+  };
+};
+export const getlistpostingid = (id: any) => {
+  return (distpatch: any) => {
+    distpatch({
+      type: GET_LIST_POSTSEARCH,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+    axios({
+      method: "GET",
+      url: `http://localhost:3001/searchpos/${id}`,
+      timeout: 12000,
+    })
+      .then((response) => {
+        distpatch({
+          type: GET_LIST_POSTSEARCH,
+          payload: {
+            loading: false,
+            data: response.data.data_codigram,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((error) => {
+        distpatch({
+          type: GET_LIST_POSTSEARCH,
           payload: {
             loading: false,
             data: false,

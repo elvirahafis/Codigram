@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { generatePath } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
 
 interface JwtPayload {
   username: string;
@@ -11,22 +12,24 @@ interface JwtPayload {
 interface IProps {
   children: React.ReactNode;
   blacked?: boolean;
+  searchdata: any;
 }
 
-const Button = ({ children, blacked = false }: IProps) => {
+const Button = ({ children, blacked = false, searchdata }: IProps) => {
   const token: any = localStorage.getItem("access_token");
   const decodedToken = jwtDecode<JwtPayload>(token);
   const navigate = useNavigate();
   const detailuser = () => {
-    decodedToken.id &&
-      navigate(generatePath("/profil/:id", { id: decodedToken.id }));
+    console.log(searchdata);
+    searchdata && navigate(generatePath("/search/:id", { id: searchdata }));
     window.location.reload();
   };
+
   return (
     <button
       onClick={detailuser}
-      className={`text-xs text-blue-500 font-semibold ${
-        blacked ? "text-black" : "text-blue-500"
+      className={` bg-transparent focus:outline-none ${
+        blacked ? "text-black" : "text-black-500"
       }`}
     >
       {children}

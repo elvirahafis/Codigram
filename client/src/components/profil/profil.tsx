@@ -32,9 +32,7 @@ export const Profile = () => {
   const dispatch = useAppDispatch();
 
   const getdatauser = async () => {
-    const response = await axios.get(
-      `http://localhost:3001/profil/${decodedToken.id}`
-    );
+    const response = await axios.get("http://localhost:3001/profil/" + id.id);
     const data = await response.data.data_codigram;
 
     setUsername(data.username);
@@ -42,9 +40,8 @@ export const Profile = () => {
   };
 
   useEffect(() => {
-    // console.log("1. use effect home");
-    dispatch(getlistuserpost(id.id));
     getdatauser();
+    dispatch(getlistuserpost(id.id));
   }, [dispatch]);
   const editdata = () => {
     decodedToken.id &&

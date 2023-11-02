@@ -134,9 +134,29 @@ const userlist = async (req, res) => {
 };
 const searchpos = async (req, res) => {
   try {
-    res.send("id: " + req.query.id);
+    console.log(req.params.id, "dsf");
+    const query = `select postingan.id,postingan.description, postingan.image as imageposting
+                  ,postingan.user_id,DATE(postingan.updatedat)as createdat,postingan.path as pathposting, 
+                  users.username,users.image as imageuser,users.path as pathuser
+                  from postingan join users on postingan.user_id=users.id
+                  where users.username ilike concat('%','${req.params.id}','%') 
+                  or postingan.description ilike concat('%','${req.params.id}','%')`;
+    const result = await sequelize.query(query);
+    res.send(errorhandling(result[0], 200, "Sukses"));
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+const detailposting = async (req, res) => {
+  try {
+    const query = `select users.username,users.image as imageuser, 
+    postingan.image as imageposting,postingan.description,
+                    DATE(postingan.updatedat) as updatedat from postingan join users on users.id=postingan.user_id 
+                    where postingan.id=${req.params.id}`;
+    const result = await sequelize.query(query);
+    res.send(errorhandling(result[0], 200, "Sukses"));
+  } catch (error) {
+    res.send(errorhandling(400, error.message));
   }
 };
 export default {
@@ -151,4 +171,5 @@ export default {
   detailprofil,
   userlist,
   searchpos,
+  detailposting,
 };

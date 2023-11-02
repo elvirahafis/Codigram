@@ -9,6 +9,7 @@ interface IPost {
   updatedat: any;
   image: any;
   id: any;
+  searchdata: any;
 }
 
 export default IPost;
